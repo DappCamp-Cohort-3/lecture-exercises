@@ -21,6 +21,7 @@ contract Bank {
     }
     
     function withdraw(uint amount) public isChild() {
+        require(amount <= address(this).balance, "Amount greater than balance");
         require(amount <= maxWithdrawAmount, "Amount greater that maximum allowed limit");
         (bool success, ) = payable(msg.sender).call{value: amount}("");
         require(success, "Failed to send Ether");
